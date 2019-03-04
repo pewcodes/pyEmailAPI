@@ -7,13 +7,13 @@ import getpass
 senderEmail = input("'From' Email Address\t: ")
 recipientEmail = input("'To' Email Address\t: ")
 emailPassword = getpass.getpass('Email Password\t\t: ') # If not specified, default prompt is 'Password: '
-message = '''\
-Subject: Hello from Pewcodes!
+subject = input('Subject\t\t\t: ')
+msg = input('Message\t\t\t: ')
+message = 'Subject: ' + subject + '\n\n' + msg
 
-This email is sent from Python.''' # This will be the body message, after '\n'
 
 def sendEmail(recipientEmail):
-    print('Sending Email...')
+    print('\n' + 'Sending Email...')
     smtpObj = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     type(smtpObj)
     smtpObj.login(senderEmail, emailPassword)
@@ -23,13 +23,17 @@ def sendEmail(recipientEmail):
 def checkAndEmail():
     sendEmail(recipientEmail)
 
-# Sends email
-# checkAndEmail()
 
-# Sends email every 'm' minutes
-m = 1
-schedule.every(m).minutes.do(checkAndEmail)
-print('\n' + 'Scheduled email!')
-while True:
-    schedule.run_pending()
-    time.sleep(10)
+interval = input('''Interval in minutes 
+(immediate by default)\t: ''')
+
+if interval == '':
+    checkAndEmail()
+else:
+    # Sends email every 'i' minutes
+    i = int(interval)
+    schedule.every(i).minutes.do(checkAndEmail)
+    print('Scheduled email!')
+    while True:
+        schedule.run_pending()
+        time.sleep(10)
