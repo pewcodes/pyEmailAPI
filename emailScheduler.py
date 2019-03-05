@@ -33,7 +33,7 @@ else:
     # Sends email every 'i' minutes
     i = int(interval)
     schedule.every(i).minutes.do(checkAndEmail)
-    print('Scheduled email!')
+    print('Scheduled email!' + ' Sending email every ' + interval + ' minute(s).')
     while True:
         schedule.run_pending()
         time.sleep(10)
